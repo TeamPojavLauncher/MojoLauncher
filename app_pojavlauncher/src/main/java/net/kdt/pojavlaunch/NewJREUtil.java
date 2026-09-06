@@ -131,9 +131,9 @@ public class NewJREUtil {
         } finally {
             ProgressLayout.clearProgress(ProgressLayout.UNPACK_RUNTIME);
             // Those files being deleted are on a "i wish" basis
-            if(universalCache != null && universalCache.isFile()) //noinspection ResultOfMethodCallIgnored
+            if(universalCache != null && universalCache.isFile())
                 universalCache.delete();
-            if(platformCache != null && platformCache.isFile()) //noinspection ResultOfMethodCallIgnored
+            if(platformCache != null && platformCache.isFile())
                 platformCache.delete();
         }
     }
@@ -157,7 +157,7 @@ public class NewJREUtil {
 
 
     public static void installNewJreIfNeeded(AssetManager assetManager, JVersionList.Version versionInfo) throws IOException, RuntimeSelectionException {
-        //Now we have the reliable information to check if our runtime settings are good enough
+        // Now we have the reliable information to check if our runtime settings are good enough
         if (versionInfo.javaVersion == null || versionInfo.javaVersion.component.equalsIgnoreCase("jre-legacy")) return;
 
         int gameRequiredVersion = versionInfo.javaVersion.majorVersion;
@@ -171,7 +171,6 @@ public class NewJREUtil {
             InternalRuntime internalRuntime = getInternalRuntime(runtime);
             // If it is, check if updates are available from the APK file
             if(internalRuntime != null) {
-                // Not calling showRuntimeFail on failure here because we did, technically, find the compatible runtime
                 checkInternalRuntime(assetManager, internalRuntime);
             }
             return;
@@ -197,9 +196,9 @@ public class NewJREUtil {
 
         // Perform checks on the picked runtime
         if(selected instanceof Runtime) {
+            Runtime selectedRuntime = (Runtime) selected;
             // If it's an already installed runtime, save its name and check if
             // it's actually an internal one (just in case)
-            Runtime selectedRuntime = (Runtime) selected;
             appropriateRuntime = selectedRuntime.name;
             internalRuntime = getInternalRuntime(selectedRuntime);
         } else if (selected instanceof InternalRuntime) {
@@ -212,6 +211,7 @@ public class NewJREUtil {
 
         // If it turns out the selected runtime is actually an internal one, attempt automatic installation or update
         if(internalRuntime != null) {
+            // Not calling showRuntimeFail on failure here because we did, technically, find the compatible runtime
             checkInternalRuntime(assetManager, internalRuntime);
         }
 
@@ -262,10 +262,10 @@ public class NewJREUtil {
             SignatureCheckUtil signatureCheckUtil = SignatureCheckUtil.create(assetManager);
             universalCache = File.createTempFile("jre-install-", "-universal", Tools.DIR_CACHE);
             platformCache = File.createTempFile("jre-install-", "-platform", Tools.DIR_CACHE);
-            
+
             String runtimePath = DOWNLOAD_URL + externalRuntime.path + "/";
             RuntimeDownloaderVerifier verifier = new RuntimeDownloaderVerifier(signatures, runtimePath, signatureCheckUtil);
-            
+
             if (!verifier.downloadAndVerify("universal.tar.xz", universalCache, R.string.downloading_java_runtime_uni) ||
                     !verifier.downloadAndVerify(platformBinFile, platformCache, R.string.downloading_java_runtime_platform)) {
                 throw new RuntimeSelectionException(RuntimeSelectionException.RUNTIME_STATE_INSTALLATION_FAILED, externalRuntime.majorVersion);
@@ -280,11 +280,10 @@ public class NewJREUtil {
             throw new RuntimeSelectionException(RuntimeSelectionException.RUNTIME_STATE_INSTALLATION_FAILED, externalRuntime.majorVersion);
         } finally {
             ProgressLayout.clearProgress(ProgressLayout.UNPACK_RUNTIME);
-            if(universalCache != null && universalCache.isFile()) //noinspection ResultOfMethodCallIgnored
+            if(universalCache != null && universalCache.isFile())
                 universalCache.delete();
-            if(platformCache != null && platformCache.isFile()) //noinspection ResultOfMethodCallIgnored
+            if(platformCache != null && platformCache.isFile())
                 platformCache.delete();
         }
     }
-
 }

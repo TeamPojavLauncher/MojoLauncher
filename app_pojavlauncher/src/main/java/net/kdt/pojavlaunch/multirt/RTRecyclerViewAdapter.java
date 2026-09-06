@@ -20,8 +20,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import net.kdt.pojavlaunch.Architecture;
-import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.NewJREUtil;
+import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.utils.jre.RuntimeSelectionException;
@@ -33,6 +33,7 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
 
     private boolean mIsDeleting = false;
     private Activity mActivity;
+    private boolean mIsDownloading = false;
 
     public void setActivity(Activity activity) {
         mActivity = activity;
@@ -51,10 +52,8 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
         final List<NewJREUtil.ExternalRuntime> downloadableRuntimes = MultiRTUtils.getRuntimesToDownload();
 
         if (position < installedRuntimes.size()) {
-            // Show installed runtime
             holder.bindRuntime(installedRuntimes.get(position), position);
         } else if (position < installedRuntimes.size() + downloadableRuntimes.size()) {
-            // Show downloadable runtime
             int downloadPos = position - installedRuntimes.size();
             holder.bindDownloadableRuntime(downloadableRuntimes.get(downloadPos), position);
         }
@@ -111,14 +110,13 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
             setupOnClickListeners();
         }
 
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint("NotifyDataSetChanged") // same as all the other ones
         private void setupOnClickListeners(){
             mSetDefaultButton.setOnClickListener(v -> {
                 if(mCurrentRuntime != null) {
                     setDefault(mCurrentRuntime);
                     RTRecyclerViewAdapter.this.notifyDataSetChanged();
                 } else if(mCurrentDownloadableRuntime != null) {
-                    // Download button clicked
                     downloadRuntime(mCurrentDownloadableRuntime);
                 }
             });
@@ -154,7 +152,9 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
         @SuppressLint("NotifyDataSetChanged")
         private void downloadRuntime(NewJREUtil.ExternalRuntime runtime) {
             if(mActivity == null) return;
-            
+            if(mIsDownloading) return;
+
+            mIsDownloading = true;
             mSetDefaultButton.setEnabled(false);
             mSetDefaultButton.setText(R.string.global_installing);
             runtime.isDownloading = true;
@@ -163,15 +163,17 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
                 try {
                     AssetManager assetManager = mActivity.getAssets();
                     runtime.downloadRuntime(assetManager);
-                    
+
                     mSetDefaultButton.post(() -> {
                         runtime.isDownloading = false;
+                        mIsDownloading = false;
                         notifyDataSetChanged();
                     });
                 } catch (RuntimeSelectionException e) {
                     Tools.showError(mActivity, e);
                     mSetDefaultButton.post(() -> {
                         runtime.isDownloading = false;
+                        mIsDownloading = false;
                         notifyDataSetChanged();
                     });
                 }
@@ -182,7 +184,7 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
             mCurrentRuntime = runtime;
             mCurrentDownloadableRuntime = null;
             mCurrentPosition = pos;
-            
+
             if(runtime.versionString != null && Tools.DEVICE_ARCHITECTURE == Architecture.archAsInt(runtime.arch)) {
                 mJavaVersionTextView.setText(runtime.name
                         .replace(".tar.xz", "")
@@ -215,26 +217,24 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAd
             mCurrentDownloadableRuntime = runtime;
             mCurrentPosition = pos;
 
-            // Set the title: "Internal 17", "Internal 21", etc.
             mJavaVersionTextView.setText(runtime.name
                     .replace(".tar.xz", "")
                     .replace("-", " "));
 
-            // Show "Not Installed" status
             mFullJavaVersionTextView.setText(R.string.global_not_installed);
             mFullJavaVersionTextView.setTextColor(mDefaultColors);
 
-            // Show download button, hide delete
             mSetDefaultButton.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.GONE);
 
-            // Handle downloading state
-            if (runtime.isDownloading) {
+            if (mIsDownloading || runtime.isDownloading) {
                 mSetDefaultButton.setEnabled(false);
                 mSetDefaultButton.setText(R.string.global_installing);
+                mSetDefaultButton.setAlpha(0.5f);
             } else {
                 mSetDefaultButton.setEnabled(true);
                 mSetDefaultButton.setText(R.string.global_download);
+                mSetDefaultButton.setAlpha(1.0f);
             }
         }
 

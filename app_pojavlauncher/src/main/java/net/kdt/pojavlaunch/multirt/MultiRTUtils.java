@@ -10,7 +10,6 @@ import android.util.Log;
 import com.kdt.mcgui.ProgressLayout;
 
 import net.kdt.pojavlaunch.R;
-
 import net.kdt.pojavlaunch.Architecture;
 import net.kdt.pojavlaunch.NewJREUtil;
 import net.kdt.pojavlaunch.Tools;
@@ -61,7 +60,7 @@ public class MultiRTUtils {
     public static List<NewJREUtil.ExternalRuntime> getRuntimesToDownload() {
         List<NewJREUtil.ExternalRuntime> runtimesToDownload = new ArrayList<>();
         NewJREUtil.ExternalRuntime[] downloadableRuntimes = NewJREUtil.ExternalRuntime.values();
-        
+
         for (NewJREUtil.ExternalRuntime downloadableruntime : downloadableRuntimes) {
             if(getExactJreName(downloadableruntime.majorVersion) == null){
                 // x86 isn't supported for JRE21+
