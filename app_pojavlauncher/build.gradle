@@ -29,7 +29,7 @@ def getVersionName = {
     }else {
         def branchName = currentBranch.getName()
         def commitAbbreviation = latestCommit.abbreviatedId
-        return "hebe-${dateToday}-${commitAbbreviation}-${branchName}"
+        return "pojav-legacy-${dateToday}-${commitAbbreviation}-${branchName}"
     }
 }
 
