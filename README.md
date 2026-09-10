@@ -36,7 +36,7 @@ For more details, check out our [wiki](https://pojavlauncher.app/)!
 * [Building](#building)
     * [Quick Build (Recommended)](#quick-build-recommended)
     * [Detailed Build](#detailed-build)
-* [Current Status](#current-status)
+* [Current Roadmap](#current-roadmap)
 * [Known Issues](#known-issues)
 * [FAQ](#faq)
 * [Contributing](#contributing)
@@ -104,6 +104,7 @@ If you need more control over the build process, follow these steps:
 5. **Build the launcher:** `./gradlew :app_pojavlauncher:assembleDebug` (Replace `gradlew` with `gradlew.bat` on Windows).
 
 ## Current Roadmap
+
 - [x] OpenJDK 8 Mobile port: ARM32, ARM64, x86, x86_64
 - [x] OpenJDK 17 Mobile port: ARM32, ARM64, x86, x86_64
 - [x] OpenJDK 21 Mobile port: ARM32, ARM64, x86, x86_64
@@ -139,7 +140,7 @@ See our [issue tracker](https://github.com/TeamPojavLauncher/PojavLauncher/issue
 
 ## FAQ
 
-See our [wiki](https://pojavlauncherteam.github.io/) for more information. (Currently an outdated wiki.) 
+See our [wiki](https://pojav.ru/) for more information. (Currently an outdated wiki.) 
 
 ## Contributing
 
@@ -158,9 +159,10 @@ PojavLauncher is licensed under [GNU LGPLv3](https://github.com/PojavLauncherTea
 ## Credits & Third Party Components and Their Licenses
 
 ### Core Components
-- [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher): [GNU LGPLv3 License](https://github.com/PojavLauncherTeam/PojavLauncher/blob/v3_openjdk/LICENSE)
 - [Boardwalk](https://github.com/zhuowei/Boardwalk) (JVM Launcher): Unknown License / [Apache License 2.0](https://github.com/zhuowei/Boardwalk/blob/master/LICENSE) or [GNU GPLv2](https://github.com/zhuowei/Boardwalk/blob/master/LICENSE)
+- [PojavLauncher](https://github.com/PojavLauncherTeam/PojavLauncher): [GNU LGPLv3 License](https://github.com/PojavLauncherTeam/PojavLauncher/blob/v3_openjdk/LICENSE)
 - [MojoLauncher](https://github.com/MojoLauncher/MojoLauncher): [GNU LGPLv3 License](https://github.com/MojoLauncher/MojoLauncher/blob/v3_openjdk/LICENSE)
+- [Amethyst](https://github.com/AngelAuraMC/Amethyst-Android): [GNU LGPLv3 License](https://github.com/AngelAuraMC/Amethyst-Android/blob/v3_openjdk/LICENSE)
 
 ### Framework & Library Support
 - Android Support Libraries: [Apache License 2.0](https://android.googlesource.com/platform/prebuilts/maven_repo/android/+/master/NOTICE.txt)
@@ -176,7 +178,9 @@ PojavLauncher is licensed under [GNU LGPLv3](https://github.com/PojavLauncherTea
 ### Java & Game Libraries
 - [LWJGL3](https://github.com/MojoLauncher/lwjgl3): [BSD-3 License](https://github.com/LWJGL/lwjgl3/blob/master/LICENSE.md)
 - [GLFW](https://github.com/MojoLauncher/glfw): [zlib license](https://github.com/MojoLauncher/glfw/blob/glfw34/LICENSE.md)
+- [SDL](https://github.com/MojoLauncher/MojoSDL): [zlib license](https://github.com/MojoLauncher/MojoSDL/blob/main/LICENSE.txt)
 - [LWJGL2-GLFW](https://github.com/MojoLauncher/lwjgl2-glfw): 3-Clause BSD license
+- [mojoexec](https://github.com/MojoLauncher/mojoexec): [MIT License](https://github.com/MojoLauncher/mojoexec/blob/master/LICENSE)
 
 ### Security & System
 - [pro-grade](https://github.com/pro-grade/pro-grade) (Java sandboxing security manager): [Apache License 2.0](https://github.com/pro-grade/pro-grade/blob/master/LICENSE.txt)
@@ -201,4 +205,4 @@ Future plans include:
 * Improving stability and performance.
 * Enhancing the mod installation experience.
 
-We welcome community feedback and suggestions for our roadmap.  Please feel free to open a feature request in our [issue tracker](https://github.com/TeamPojavLauncher/PojavLauncher/issues).
+We welcome community feedback and suggestions for our roadmap. Please feel free to open a feature request in our [issue tracker](https://github.com/TeamPojavLauncher/PojavLauncher/issues).
