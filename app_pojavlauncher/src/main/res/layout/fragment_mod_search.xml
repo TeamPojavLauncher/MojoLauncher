@@ -1,120 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_app"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingHorizontal="@dimen/fragment_padding_medium"
-    >
+    android:background="@color/background_color">
 
-
-
-    <!--
-        Cosmetic layout to have a better scrolling separation
-     -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/search_mod_overlay"
+    <LinearLayout
+        android:id="@+id/mods_search_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:translationZ="10dp"
-        android:background="@drawable/background_overlay"
-        android:paddingHorizontal="@dimen/padding_medium"
-        android:paddingVertical="@dimen/padding_medium"
-        android:layout_marginTop="@dimen/fragment_padding_medium"
-        android:layout_marginHorizontal="@dimen/fragment_padding_medium"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:background="@color/header_background"
+        app:layout_constraintTop_toTopOf="parent">
 
-        app:layout_constraintTop_toTopOf="parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/_8sdp">
 
+            <ImageButton
+                android:id="@+id/mods_search_back"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:src="@drawable/ic_arrow_back"
+                android:scaleType="fitCenter"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/back_button" />
 
-        >
-        <!-- Search text -->
-        <EditText
-            android:id="@+id/search_mod_edittext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_line"
-            android:textSize="@dimen/_13ssp"
-            android:translationZ="2dp"
+            <EditText
+                android:id="@+id/mods_search_edit"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:hint="@string/hint_search_mod"
+                android:background="@drawable/shape_rounded_background"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/text_primary"
+                android:inputType="text" />
 
-            android:ems="10"
-            android:hint="@string/hint_search_modpack"
-            android:inputType="textPersonName"
-            android:paddingHorizontal="@dimen/padding_heavy"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/search_mod_filter"
-            />
+            <ImageButton
+                android:id="@+id/mods_search_button"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:src="@drawable/ic_search"
+                android:scaleType="fitCenter"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/search_button" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/search_mod_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:minWidth="@dimen/_38sdp"
-            android:src="@drawable/ic_filter"
-
-            android:paddingHorizontal="@dimen/padding_medium"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/search_mod_edittext"
-            app:layout_constraintBottom_toBottomOf="@id/search_mod_edittext"
-
-            />
-
-        <ProgressBar
-            android:id="@+id/search_mod_progressbar"
-            style="?android:attr/progressBarStyleHorizontal"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/search_mod_edittext"
-            tools:layout_editor_absoluteX="13dp" />
+            android:orientation="horizontal"
+            android:gravity="end">
 
+            <Button
+                android:id="@+id/mods_filter_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/filter_mods"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_mod_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="@dimen/_15sdp"
-        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/mods_search_header"
+        app:layout_constraintBottom_toTopOf="@id/mods_load_more_button">
 
-        app:layout_constraintBottom_toTopOf="@id/mineButton_import_local_modpack"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="@dimen/padding_moderate"
-        />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mods_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/search_mod_status_text"
-        android:layout_width="wrap_content"
+        <ProgressBar
+            android:id="@+id/mods_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/mods_load_more_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/search_mod_list"
-        app:layout_constraintEnd_toEndOf="@+id/search_mod_list"
-        app:layout_constraintStart_toStartOf="@+id/search_mod_list"
-        app:layout_constraintTop_toTopOf="@+id/search_mod_list" />
-
-    <com.kdt.mcgui.MineButton
-        android:id="@+id/mineButton_import_local_modpack"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:layout_marginTop="@dimen/padding_moderate"
-        android:layout_marginBottom="@dimen/padding_moderate"
-        android:text="@string/import_local_modpack"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_margin="@dimen/_8sdp"
+        android:text="@string/load_more"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

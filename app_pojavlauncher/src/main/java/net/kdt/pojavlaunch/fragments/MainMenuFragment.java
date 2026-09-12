@@ -56,6 +56,8 @@ public class MainMenuFragment extends Fragment {
         Button mInstallJarButton = view.findViewById(R.id.install_jar_button);
         Button mShareLogsButton = view.findViewById(R.id.share_logs_button);
         Button mOpenDirectoryButton = view.findViewById(R.id.open_files_button);
+        Button mModStoreButton = view.findViewById(R.id.mod_store_button);
+        Button mSettingsMenuButton = view.findViewById(R.id.settings_menu_button);
 
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
@@ -66,6 +68,17 @@ public class MainMenuFragment extends Fragment {
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         mInstallJarButton.setOnClickListener(v -> runInstallerWithConfirmation());
         mEditProfileButton.setOnClickListener(v -> mVersionSpinner.openProfileEditor(requireActivity()));
+
+        // Mod Store → open mod search fragment
+        if (mModStoreButton != null)
+            mModStoreButton.setOnClickListener(v -> Tools.swapFragment(requireActivity(),
+                    ModsSearchFragment.class, ModsSearchFragment.TAG, null));
+
+        // Settings → open settings fragment
+        if (mSettingsMenuButton != null)
+            mSettingsMenuButton.setOnClickListener(v -> {
+                Toast.makeText(requireContext(), "Settings coming soon", Toast.LENGTH_SHORT).show();
+            });
 
         mPlayButton.setOnClickListener(v -> {
         Instance instance = Instances.loadSelectedInstance();
@@ -97,8 +110,9 @@ public class MainMenuFragment extends Fragment {
 
         mShareLogsButton.setOnClickListener((v) -> shareLog(requireContext()));
 
-        mOpenDirectoryButton.setOnClickListener((v)-> openGameDirectory(v.getContext()));
-
+        mOpenDirectoryButton.setOnClickListener((v)-> {
+            Tools.swapFragment(requireActivity(), ManageModsFragment.class, ManageModsFragment.TAG, null);
+        });
 
         mNewsButton.setOnLongClickListener((v)->{
             Tools.swapFragment(requireActivity(), GamepadMapperFragment.class, GamepadMapperFragment.TAG, null);

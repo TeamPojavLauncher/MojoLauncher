@@ -122,7 +122,15 @@ public class CurseforgeApi implements ModpackApi{
             versionNames[i] = modDetail.get("displayName").getAsString();
 
             JsonElement downloadUrl = modDetail.get("downloadUrl");
-            versionUrls[i] = downloadUrl.getAsString();
+            // CF restricts direct download for some mods — build edge CDN URL instead
+            if (downloadUrl == null || downloadUrl.isJsonNull()) {
+                int fileId = modDetail.get("id").getAsInt();
+                String fileName = modDetail.get("fileName").getAsString();
+                versionUrls[i] = String.format("https://edge.forgecdn.net/files/%s/%s/%s",
+                        fileId / 1000, fileId % 1000, fileName);
+            } else {
+                versionUrls[i] = downloadUrl.getAsString();
+            }
 
             JsonArray gameVersions = modDetail.getAsJsonArray("gameVersions");
             for(JsonElement jsonElement : gameVersions) {
